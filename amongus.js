@@ -11,6 +11,8 @@ var channel;
 
 const resetEmoji = "🔄";
 
+const blankfield = "\u200B";
+
 const emojis = [
   "Black",
   "Blue",
@@ -73,7 +75,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
           .setNickname(newUsername, "Among Us Color")
           .catch((reason) => {
             user.send(
-              `You are either the server owner or have a role that is higher than me.  I can't set your nickname to \`${newUsername}\` so you will have to change it yourself.`
+              `**Permission Missing!**\n__If you're the server owner__\nI can't set the nickname to \`${newUsername}\`, so you will have to it manually.\n__If you're not the server owner__\nMake sure that my role is at the top of the role hierarchy.`
             );
             reaction.remove(user);
           });
