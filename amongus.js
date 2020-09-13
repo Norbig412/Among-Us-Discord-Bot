@@ -133,11 +133,11 @@ var embedMessage;
 async function sendConfigMessage() {
   var embed = new Discord.RichEmbed({
     title: "Among Us Helper",
-    description: "Helps you know which playing is talking!",
+    description: "Helps you know which player is talking!",
     fields: [
       {
         name: "Player color",
-        value: "Pick one of the reactions below based on your ingame color.",
+        value: "Pick one of the reactions below based on your in-game color.",
       },
       {
         name: "Reset",
