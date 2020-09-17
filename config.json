@@ -1,8 +1,22 @@
 {
-  "testMode": true,
+  "testMode": false,
   "prodToken": "NzU0MzY4MTIwMDQyMjkxMjUw.X1zuDw.5Mst8zkPWe3gNVAMfU5pKNeXgmk",
   "testToken": "NjcwODI5NzUwNTAzMzQyMTEx.Xi0E4w.mZvmGuz2fc_v2UzEgaZG_PhYb_0",
-  "prodChannel": "345701810616532993",
-  "testChannel": "345701810616532993",
-  "dataStoreName": "./data.json"
+  "dataStoreName": "ServerInfo",
+  "prefix": ";",
+  "templates": {
+    "serverInfo": {
+      "channel": null,
+      "message": null,
+      "users": {
+        "default": {
+          "key": "value"
+        }
+      }
+    },
+    "user": {
+      "oldNick": null,
+      "color": null
+    }
+  }
 }
