@@ -61,8 +61,8 @@ client.on("message", (msg) => {
 
     if (msg.content.startsWith(config.prefix + "play")) {
       sendConfigMessage(msg.guild.id, msg.channel.id);
-    } else if (msg.content.startsWith(config.prefix + "test")) {
-      serverInfo.test();
+    } else if (msg.content.startsWith(config.prefix + "wipe")) {
+      serverInfo.deleteAll();
     }
   }
 });
@@ -176,6 +176,9 @@ async function reset(init, guild) {
           serverInfo.deleteUser(key, user);
         }
       }
+      client.channels
+        .get(serverInfo.getChannel(key))
+        .fetchMessage(serverInfo.getMessage(key));
     });
   } else {
     var reactions = client.channels
