@@ -180,9 +180,11 @@ async function reset(init, guild) {
           serverInfo.deleteUser(key, user);
         }
       }
-      client.channels
+      // Delete the old message
+      let message = client.channels
         .get(serverInfo.getChannel(key))
         .fetchMessage(serverInfo.getMessage(key));
+      message.delete();
     });
   } else {
     var reactions = client.channels
