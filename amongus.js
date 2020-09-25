@@ -65,8 +65,21 @@ client.on("message", (msg) => {
 
     if (msg.content.startsWith(prefix + "play")) {
       sendConfigMessage(msg.guild.id, msg.channel.id);
-    } else if (msg.content.startsWith(prefix + "wipe")) {
+    } else if (msg.content.startsWith(prefix + "wipeALL")) {
       serverInfo.deleteAll();
+    } else if (msg.content.startsWith(prefix + "info")) {
+      var embed = new Discord.RichEmbed({
+        title: "Bot Info",
+        description: "Created by flyerzrule#0001",
+        fields: [
+          {
+            name: "__**Report Bugs**__",
+            value:
+              "**Discord:** flyerzrule#0001\n**Reddit:** [flyerzrule](https://reddit.com/user/flyerzrule)",
+          },
+        ],
+      });
+      msg.channel.send(embed);
     }
   }
 });
@@ -142,7 +155,7 @@ async function sendConfigMessage(guild, channel) {
   }
   serverInfo.setChannel(guild, channel);
   var embed = new Discord.RichEmbed({
-    title: "Among Us Helper",
+    title: "Color Assignment",
     description: "Helps you know which player is talking!",
     fields: [
       {
@@ -155,7 +168,9 @@ async function sendConfigMessage(guild, channel) {
           "Click :arrows_counterclockwise: to remove all of the nicknames and to reset the reactions.",
       },
     ],
-    timestamp: new Date(),
+    footer: {
+      text: `Use ${prefix}info for info about reporting issues.`,
+    },
   });
   var embedMessage = await client.channels.get(channel).send(embed);
   serverInfo.setMessage(embedMessage.guild.id, embedMessage.id);

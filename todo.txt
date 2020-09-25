@@ -1,5 +1,3 @@
 - find a way for the old message to get cached on startup (not possible on v11)
-- test with multiple servers
-- test with multiple people
 - possible: change reactions behavior to switch to the new color and remove the reaction for the older color
-- allow multiple messages per server
+- convert to v12
