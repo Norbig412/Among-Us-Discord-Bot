@@ -4,7 +4,7 @@
   "testToken": "NjcwODI5NzUwNTAzMzQyMTEx.Xi0E4w.mZvmGuz2fc_v2UzEgaZG_PhYb_0",
   "dataStoreName": "ServerInfo",
   "prodPrefix": ";",
-  "testPrefix": ":",
+  "testPrefix": ".",
   "templates": {
     "serverInfo": {
       "channel": null,

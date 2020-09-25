@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const { get } = require("http");
 
 const client = new Discord.Client();
 const config = require("./config.json");
@@ -53,7 +54,6 @@ client.on("error", console.error);
 client.on("ready", () => {
   console.log("Bot is ready!");
   client.user.setActivity(`${prefix}play`, { type: "WATCHING" });
-  // serverInfo.deleteAll();
   reset(true);
 });
 
@@ -81,13 +81,12 @@ client.on("messageReactionAdd", async (reaction, user) => {
         serverInfo.addUser(
           guild,
           user.id,
-          reaction.message.member.nickname || user.username,
+          reaction.message.guild.member(user).displayName,
           reaction.emoji.name
         );
-        let newUsername = `[${reaction.emoji.name}] ${serverInfo.getUserOldNick(
-          guild,
-          user.id
-        )}`;
+        let newUsername = `[${reaction.emoji.name}] ${
+          reaction.message.guild.member(user).displayName
+        }`;
         reaction.message.guild
           .member(user)
           .setNickname(newUsername, "Among Us Color")
@@ -101,7 +100,7 @@ client.on("messageReactionAdd", async (reaction, user) => {
         reaction.remove(user);
       }
     } else if (reaction.emoji.name === resetEmoji) {
-      reset(false, reaction.message.guild.id);
+      reset(false, reaction);
       reaction.remove(user);
     }
   }
@@ -167,7 +166,7 @@ async function sendConfigMessage(guild, channel) {
   embedMessage.react(resetEmoji);
 }
 
-async function reset(init, guild) {
+async function reset(init, msgReaction) {
   if (init) {
     var keys = serverInfo.getKeys();
     keys.forEach((key) => {
@@ -185,27 +184,22 @@ async function reset(init, guild) {
         }
       }
       // Delete the old message
-      // let message = client.channels
-      //   .get(serverInfo.getChannel(key))
-      //   .fetchMessage(serverInfo.getMessage(key));
-      // message.delete();
+      client.channels
+        .get(serverInfo.getChannel(key))
+        .fetchMessage(serverInfo.getMessage(key)).delete;
     });
   } else {
-    var reactions = client.channels
-      .get(serverInfo.getChannel(guild))
-      .fetchMessage(serverInfo.getMessage(guild))
-      .reactions.array();
-
+    var reactions = msgReaction.message.reactions;
     reactions.forEach(async (reaction) => {
       var users = await reaction.fetchUsers();
       users = users.array();
       users.forEach((user) => {
         if (!user.bot) {
           reaction.remove(user);
-          serverInfo.deleteUser(guild, user.id);
         }
       });
     });
   }
 }
+
 client.login(token);
