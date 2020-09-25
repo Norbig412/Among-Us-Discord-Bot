@@ -6,6 +6,7 @@ const config = require("./config.json");
 const serverInfo = require("./helpers/serverInfo.js");
 
 var token;
+var prefix;
 
 const resetEmoji = "🔄";
 
@@ -28,8 +29,10 @@ const emojis = [
 
 if (config.testMode) {
   token = config.testToken;
+  prefix = config.testPrefix;
 } else {
   token = config.prodToken;
+  prefix = config.prodPrefix;
 }
 
 // Setup handlers for process events
@@ -49,20 +52,20 @@ client.on("error", console.error);
 
 client.on("ready", () => {
   console.log("Bot is ready!");
-  client.user.setActivity(`${config.prefix}play`, { type: "WATCHING" });
+  client.user.setActivity(`${prefix}play`, { type: "WATCHING" });
   // serverInfo.deleteAll();
   reset(true);
 });
 
 client.on("message", (msg) => {
   if (!msg.author.bot) {
-    if (!msg.content.startsWith(config.prefix)) {
+    if (!msg.content.startsWith(prefix)) {
       return;
     }
 
-    if (msg.content.startsWith(config.prefix + "play")) {
+    if (msg.content.startsWith(prefix + "play")) {
       sendConfigMessage(msg.guild.id, msg.channel.id);
-    } else if (msg.content.startsWith(config.prefix + "wipe")) {
+    } else if (msg.content.startsWith(prefix + "wipe")) {
       serverInfo.deleteAll();
     }
   }
