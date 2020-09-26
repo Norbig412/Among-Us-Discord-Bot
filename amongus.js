@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { get } = require("http");
 
 const client = new Discord.Client();
 const config = require("./config.json");
@@ -8,10 +7,6 @@ const serverInfo = require("./helpers/serverInfo.js");
 
 var token;
 var prefix;
-
-const resetEmoji = "🔄";
-
-const blankfield = "\u200B";
 
 const emojis = [
   "Black",
