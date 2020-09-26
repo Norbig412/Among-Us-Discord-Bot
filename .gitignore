@@ -1,5 +1,12 @@
-node_modules/*
-package-lock.json
+# VS Code files
 .history/*
 .vscode/*
+
+# Nodejs Files
+node_modules/*
+
+# Database Files
 data/*
+
+# Bot tokens
+tokens.json
