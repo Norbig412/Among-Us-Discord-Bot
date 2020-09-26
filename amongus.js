@@ -61,8 +61,6 @@ client.on("message", (msg) => {
 
     if (msg.content.startsWith(prefix + "play")) {
       sendConfigMessage(msg.guild.id, msg.channel.id);
-    } else if (msg.content.startsWith(prefix + "wipeALL")) {
-      serverInfo.deleteAll();
     } else if (msg.content.startsWith(prefix + "info")) {
       var embed = new Discord.RichEmbed({
         title: "Bot Info",
