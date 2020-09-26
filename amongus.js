@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 
 const client = new Discord.Client();
 const config = require("./config.json");
+const tokens = require("./tokens.json");
 
 const serverInfo = require("./helpers/serverInfo.js");
 
@@ -24,10 +25,10 @@ const emojis = [
 ];
 
 if (config.testMode) {
-  token = config.testToken;
+  token = tokens.test;
   prefix = config.testPrefix;
 } else {
-  token = config.prodToken;
+  token = tokens.prod;
   prefix = config.prodPrefix;
 }
 

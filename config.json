@@ -1,7 +1,5 @@
 {
   "testMode": false,
-  "prodToken": "NzU0MzY4MTIwMDQyMjkxMjUw.X1zuDw.5Mst8zkPWe3gNVAMfU5pKNeXgmk",
-  "testToken": "NjcwODI5NzUwNTAzMzQyMTEx.Xi0E4w.mZvmGuz2fc_v2UzEgaZG_PhYb_0",
   "dataStoreName": "ServerInfo",
   "prodPrefix": ";",
   "testPrefix": ".",
