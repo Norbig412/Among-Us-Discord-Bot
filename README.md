@@ -2,7 +2,9 @@
 ## About
 Don't you hate it when someone has a different name in Among Us than they do on Discord?
 Well this is a Discord bot that makes it easier to tell who is who. Each player picks the color that they are using in\-game and the color will be added to the beginning of their username \(\[Blue\] Username\). When the user deselects a color, their username is reverted back to the way it was.
+
 ![Bot Example](/images/bot_example.png)
+
 ## Initial Setup
 ### Installing packages
 Run the command "npm install" in the root of the project to install all of the required packages. If you run into issues installing enmap, following the installation instructions found [here](https://enmap.evie.dev/install).
