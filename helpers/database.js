@@ -1,4 +1,4 @@
-const config = require("../config.json");
+const config = require("../config/config.json");
 const Enmap = require("enmap");
 const store = new Enmap({ name: config.dataStoreName });
 
