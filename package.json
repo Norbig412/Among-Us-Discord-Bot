@@ -1,5 +1,5 @@
 {
-  "name": "among-us-discord-bot2",
+  "name": "among-us-discord-bot",
   "version": "1.0.0",
   "description": "A Discord bot that makes it easier to tell who is who in an Among Us game.",
   "main": "amongus.js",
