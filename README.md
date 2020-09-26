@@ -11,7 +11,7 @@ Run the command "npm install" in the root of the project to install all of the r
 ### Setting up Discord emojis
 The pictures located in the [emojis directory](https://github.com/strenkml/among-us-bot/tree/master/emojis) need to be emojis on a Discord Server that the bot is apart of. The emoji names should be the same as the name of the file, for example Red.png would be "Red".
 ### Setting up bot tokens
-The example\_tokens.json file needs to be renamed to tokens.json. In the file, there are spots for two different bot tokens. One is for production and one is for testing. You can leave the test token empty if you don't want to use the test mode functionality. Information about creating a Discord bot and retrieving its token can be found [here](https://www.writebots.com/discord-bot-token/).
+The config\/example\_tokens.json file needs to be renamed to tokens.json. In the file, there are spots for two different bot tokens. One is for production and one is for testing. You can leave the test token empty if you don't want to use the test mode functionality. Information about creating a Discord bot and retrieving its token can be found [here](https://www.writebots.com/discord-bot-token/).
 ### Setting up permissions
 The bot needs a role that has the following permissions:
 * Manage Nicknames \(So that it can change the nicknames of the users\)
@@ -21,7 +21,7 @@ The bot needs a role that has the following permissions:
 The bot will also need to be able to read and send messages in the channels that you want the bot to be able to function. The bot's role should be the highest role in the role list, this is because the bot cannot change the nickname of a user that has a role above it.
 
 ## Configuration
-The parameters mentioned below are keys in the config.json file.
+The parameters mentioned below are keys in the config\/config.json file.
 ### testMode
 This setting controls whether or not the bot is in test mode. If set to true, the bot will use the test prefix and the test token \(found in the tokens.json file\). If set to false, the bot will use the production prefix and the production token \(found in the tokens.json file\).
 ### dataStoreName
@@ -42,7 +42,7 @@ Below are the two ways that the bot can be run:
    * Run the command "nodemon amongus.js" to run the bot
 
 ## Using the bot
-\{prefix\} refers to the configured prefix from the config.json file
+\{prefix\} refers to the configured prefix from the config\/config.json file
 ### \{prefix\}play
 Sends the color selection message to the channel where the command is used. The bot will react to the message with all of the emojis. When a user clicks on one of the reactions the chosen color will be added to the beginning of their username \(\[Color\] username\).
 ### \{prefix\}reset
