@@ -80,9 +80,9 @@ client.on("message", (msg) => {
         ],
       });
       msg.channel.send(embed);
-    } else if (msg.content.startsWith(prefix + "wipeALL")) {
-      reset(false, reaction);
-      reaction.remove(user);
+    } else if (msg.content.startsWith(prefix + "reset")) {
+      reset(false, msg.guild.id);
+      msg.delete();
     }
   }
 });
@@ -164,8 +164,7 @@ async function sendConfigMessage(guild, channel) {
       },
       {
         name: "Reset",
-        value:
-          "Click :arrows_counterclockwise: to remove all of the nicknames and to reset the reactions.",
+        value: `Use ${prefix}reset to reset all nicknames and reactions.`,
       },
     ],
     footer: {
@@ -180,7 +179,7 @@ async function sendConfigMessage(guild, channel) {
   });
 }
 
-async function reset(init, msgReaction) {
+async function reset(init, guild) {
   if (init) {
     var keys = serverInfo.getKeys();
     keys.forEach((key) => {
@@ -203,7 +202,10 @@ async function reset(init, msgReaction) {
         .fetchMessage(serverInfo.getMessage(key)).delete;
     });
   } else {
-    var reactions = msgReaction.message.reactions;
+    var message = await client.channels
+      .get(serverInfo.getChannel(guild))
+      .fetchMessage(serverInfo.getMessage(guild));
+    var reactions = message.reactions;
     reactions.forEach(async (reaction) => {
       var users = await reaction.fetchUsers();
       users = users.array();
