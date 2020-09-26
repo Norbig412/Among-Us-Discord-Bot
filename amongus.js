@@ -80,6 +80,9 @@ client.on("message", (msg) => {
         ],
       });
       msg.channel.send(embed);
+    } else if (msg.content.startsWith(prefix + "wipeALL")) {
+      reset(false, reaction);
+      reaction.remove(user);
     }
   }
 });
@@ -112,9 +115,6 @@ client.on("messageReactionAdd", async (reaction, user) => {
         } else {
           reaction.remove(user);
         }
-      } else if (reaction.emoji.name === resetEmoji) {
-        reset(false, reaction);
-        reaction.remove(user);
       }
     }
   }
@@ -178,7 +178,6 @@ async function sendConfigMessage(guild, channel) {
   emojis.forEach((emojiName) => {
     embedMessage.react(client.emojis.find((emoji) => emoji.name === emojiName));
   });
-  embedMessage.react(resetEmoji);
 }
 
 async function reset(init, msgReaction) {
