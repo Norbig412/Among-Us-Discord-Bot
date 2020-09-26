@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
-
 const client = new Discord.Client();
-const config = require("./config.json");
-const tokens = require("./tokens.json");
+
+const config = require("./config/config.json");
+const tokens = require("./config/tokens.json");
 
 const database = require("./helpers/database.js");
 

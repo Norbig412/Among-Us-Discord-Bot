@@ -1,5 +1,5 @@
 {
-  "testMode": false,
+  "testMode": true,
   "dataStoreName": "ServerInfo",
   "prodPrefix": ";",
   "testPrefix": ".",
