@@ -61,19 +61,12 @@ module.exports.run = async (client, message, args) => {
         break;
       case "invite":
         embed.setDescription(
-          "Sets the invite code and region in the color selection message."
+          "Sets the invite code in the color selection message."
         );
-        embed.addField(
-          "__**Usage**__",
-          `\`${client.prefix}invite CODE REGION\``
-        );
+        embed.addField("__**Usage**__", `\`${client.prefix}invite CODE\``);
         embed.addField(
           "CODE",
           "This is the 6 character invite code for the game lobby."
-        );
-        embed.addField(
-          "REGION",
-          "This is the region that the invite code belongs to. This argument is optional and will default to North American servers."
         );
         break;
       case "reset":

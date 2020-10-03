@@ -8,7 +8,6 @@ module.exports.run = async (client, message, args) => {
     var channelId = database.getChannel(message.guild.id);
 
     var code;
-    var region;
 
     var oldEmbed = await client.channels
       .get(channelId)
@@ -18,11 +17,6 @@ module.exports.run = async (client, message, args) => {
 
     code = getCode(args[0], message);
     if (code != null) {
-      if (args[1] == null) {
-        region = "North America";
-      } else {
-        region = args[1];
-      }
       var newEmbed = new Discord.RichEmbed({
         title: "Color Assignment",
         description: "Helps you know which player is talking!",
@@ -33,8 +27,8 @@ module.exports.run = async (client, message, args) => {
               "Pick one of the reactions below based on your in-game color.",
           },
           {
-            name: "Invite code and region",
-            value: `**Code:** ${code}\n**Region:** ${region}`,
+            name: "Invite code",
+            value: code,
           },
         ],
         footer: {
@@ -42,20 +36,24 @@ module.exports.run = async (client, message, args) => {
         },
       });
       oldEmbed.edit(newEmbed);
-      message.delete();
     }
   } else {
     message.author.send("Command not available in DMs!");
   }
+  message.delete();
 };
 
 function getCode(code, message) {
-  if (code == null || code.length != 6) {
-    message.author.send("Invalid invite code!  Code must be 6 characters.");
-    message.delete();
+  var letters = /^[A-Za-z]+$/;
+  if (code == null || code.length != 6 || !code.match(letters)) {
+    message.author.send(
+      `Invalid invite code: \`${code}\`!  Code must be 6 letters.`
+    );
     return null;
   } else {
-    code = code.toUpperCase();
-    return code;
+    if (code.match(letters)) {
+      code = code.toUpperCase();
+      return code;
+    }
   }
 }
