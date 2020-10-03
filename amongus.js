@@ -1,10 +1,14 @@
 const Discord = require("discord.js");
+const fs = require("fs");
+
 const client = new Discord.Client();
 
 const config = require("./config/config.json");
 const tokens = require("./config/tokens.json");
 
-const database = require("./helpers/database.js");
+const database = require("./lib/database.js");
+
+client.commands = new Discord.Collection();
 
 var token;
 var prefix;
@@ -31,6 +35,7 @@ if (config.testMode) {
   token = tokens.prod;
   prefix = config.prodPrefix;
 }
+client.prefix = prefix;
 
 // Setup handlers for process events
 process.on("unhandledRejection", function (err, p) {
@@ -47,37 +52,50 @@ process.on("warning", (warning) => {
 
 client.on("error", console.error);
 
-client.on("ready", () => {
-  console.log("Bot is ready!");
-  client.user.setActivity(`${prefix}play`, { type: "WATCHING" });
-  reset(true);
+// Load the commands from the cmd directory
+fs.readdir("./cmds/", (err, files) => {
+  if (err) console.error(err);
+  let jsFiles = files.filter((f) => f.split(".").pop() === "js");
+
+  if (jsFiles.length <= 0) {
+    console.log("No commands to load!");
+    return;
+  }
+
+  console.log(`Loading ${jsFiles.length} commands!`);
+
+  jsFiles.forEach((f, i) => {
+    let props = require(`./cmds/${f}`);
+    console.log(`${i + 1}: ${f} loaded!`);
+    client.commands.set(props.name, props);
+  });
 });
 
-client.on("message", (msg) => {
-  if (!msg.author.bot) {
-    if (!msg.content.startsWith(prefix)) {
-      return;
-    }
+client.on("ready", () => {
+  console.log("Bot is ready!");
+  client.user.setActivity(`${client.guilds.array().length} guilds`, {
+    type: "WATCHING",
+  });
+  this.reset(true);
+});
 
-    if (msg.content.startsWith(prefix + "play")) {
-      sendConfigMessage(msg.guild.id, msg.channel.id);
-    } else if (msg.content.startsWith(prefix + "info")) {
-      var embed = new Discord.RichEmbed({
-        title: "Bot Info",
-        description: "Created by flyerzrule#0001",
-        fields: [
-          {
-            name: "__**Report Bugs**__",
-            value:
-              "**Discord:** flyerzrule#0001\n**Reddit:** [flyerzrule](https://reddit.com/user/flyerzrule)",
-          },
-        ],
-      });
-      msg.channel.send(embed);
-    } else if (msg.content.startsWith(prefix + "reset")) {
-      reset(false, msg.guild.id);
-      msg.delete();
-    }
+client.on("message", (message) => {
+  if (message.author.bot) return; // Ignores all bots
+  if (message.isMemberMentioned(client.user)) {
+    message.channel.send(`My prefix is: \`${prefix}\``);
+    return;
+  }
+  if (!message.content.startsWith(prefix)) return; // Ignores all messages that don't start with the prefix
+
+  let messageArray = message.content.split(" ");
+  let command = messageArray[0];
+  let args = messageArray.slice(1);
+
+  let cmd = client.commands.get(command.slice(prefix.length));
+  try {
+    if (cmd) cmd.run(client, message, args);
+  } catch (err) {
+    console.error(err);
   }
 });
 
@@ -135,11 +153,11 @@ client.on("messageReactionRemove", async (reaction, user) => {
   }
 });
 
-async function sendConfigMessage(guild, channel) {
+module.exports.sendConfigMessage = async (guild, channel) => {
   if (!database.isGuild(guild)) {
     database.addGuild(guild);
   } else {
-    reset(true);
+    this.reset(true);
   }
   if (database.getMessage(guild) != null) {
     let oldMessage = await client.channels
@@ -156,13 +174,9 @@ async function sendConfigMessage(guild, channel) {
         name: "Player color",
         value: "Pick one of the reactions below based on your in-game color.",
       },
-      {
-        name: "Reset",
-        value: `Use ${prefix}reset to reset all nicknames and reactions.`,
-      },
     ],
     footer: {
-      text: `Use ${prefix}info for info about reporting issues.`,
+      text: `Use ${prefix}help for bot help`,
     },
   });
   var embedMessage = await client.channels.get(channel).send(embed);
@@ -171,9 +185,9 @@ async function sendConfigMessage(guild, channel) {
   emojis.forEach((emojiName) => {
     embedMessage.react(client.emojis.find((emoji) => emoji.name === emojiName));
   });
-}
+};
 
-async function reset(init, guild) {
+module.exports.reset = async (init, guild) => {
   if (init) {
     var keys = database.getKeys();
     keys.forEach((key) => {
@@ -196,9 +210,9 @@ async function reset(init, guild) {
         .fetchMessage(database.getMessage(key)).delete;
     });
   } else {
-    var message = await client.channels
-      .get(database.getChannel(guild))
-      .fetchMessage(database.getMessage(guild));
+    var channel = client.channels.get(database.getChannel(guild));
+    channel.startTyping();
+    var message = await channel.fetchMessage(database.getMessage(guild));
     var reactions = message.reactions;
     reactions.forEach(async (reaction) => {
       var users = await reaction.fetchUsers();
@@ -209,7 +223,8 @@ async function reset(init, guild) {
         }
       });
     });
+    channel.stopTyping(true);
   }
-}
+};
 
 client.login(token);

@@ -2,7 +2,7 @@
   "testMode": false,
   "dataStoreName": "ServerInfo",
   "prodPrefix": ";",
-  "testPrefix": ".",
+  "testPrefix": ",",
   "templates": {
     "serverInfo": {
       "channel": null,
