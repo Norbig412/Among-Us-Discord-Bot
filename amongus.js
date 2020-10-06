@@ -81,7 +81,7 @@ client.on("ready", () => {
 
 client.on("message", (message) => {
   if (message.author.bot) return; // Ignores all bots
-  if (message.isMemberMentioned(client.user)) {
+  if (message.isMemberMentioned(client.user) && !message.mentions.everyone) {
     message.channel.send(`My prefix is: \`${prefix}\``);
     return;
   }
