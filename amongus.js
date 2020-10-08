@@ -79,6 +79,12 @@ client.on("ready", () => {
   this.reset(true);
 });
 
+setInterval(() => {
+  client.user.setActivity(`${client.guilds.array().length} guilds`, {
+    type: "WATCHING",
+  });
+}, .5 * 60 * 60 * 1000);
+
 client.on("message", (message) => {
   if (message.author.bot) return; // Ignores all bots
   if (message.isMemberMentioned(client.user) && !message.mentions.everyone) {
